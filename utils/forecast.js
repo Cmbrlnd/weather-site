@@ -10,11 +10,15 @@ const forecast = (latitude, longitude, callback) => {
         }else if(body.error){
             callback('Unable to find location.')
         }else{
-            callback(undefined, body.current.weather_descriptions + ', ' + 'Current temperature: ' + body.current.temperature + ' degrees celsius.'
-            + ' Feels like: ' + body.current.feelslike + ' degrees celsius.'
-            + ' Wind speed: ' + body.current.wind_speed + ' km/h.'
-            + ' Wind direction: ' + body.current.wind_dir
-            + '. Humidity: ' + body.current.humidity + '%'
+            callback(undefined, {
+                description: body.current.weather_descriptions,
+                temperature: ' Current temperature: ' + body.current.temperature + ' degrees celsius.',
+                feelsLike: ' Feels like: ' + body.current.feelslike + ' degrees celsius.',
+                wind: ' Wind speed: ' + body.current.wind_speed + ' km/h. ' + body.current.wind_dir,
+                humidity: ' Humidity: ' + body.current.humidity + '%',
+                tempNum: parseInt(body.current.temperature),
+                feelsNum: parseInt(body.current.feelslike)
+        }
             )
         }
     })
