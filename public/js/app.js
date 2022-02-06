@@ -15,6 +15,9 @@ const messageSixImg = document.querySelector('#message-6-img')
 
 weatherForm.addEventListener('submit', (e) => {
     e.preventDefault()
+    
+    $("input").blur();
+
     const location = search.value
     messageOne.textContent = 'Loading'
     messageTwo.textContent = ''
