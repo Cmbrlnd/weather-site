@@ -18,31 +18,43 @@ weatherForm.addEventListener('submit', (e) => {
     const location = search.value
     messageOne.textContent = 'Loading'
     messageTwo.textContent = ''
-
+    messageThree.textContent = ''
+    messageFour.textContent = ''
+    messageFive.textContent = ''
+    messageSix.textContent = ''
+    messageOneImg.innerHTML = ''
+    messageTwoImg.innerHTML = ''
+    messageThreeImg.innerHTML = ''
+    messageFourImg.innerHTML = ''
+    messageFiveImg.innerHTML = ''
+    messageSixImg.innerHTML = ''
+    
     fetch('/weather?address=' + location).then((response) => {
         response.json().then((data) =>{
             if (data.error) {
                 messageOne.textContent = data.error
-            } else {
-                console.log(data.forecast.description[0])
-
+            }else{
+                const weatherDescString = data.forecast.description[0].toLowerCase()
                 const locImg = document.createElement("i")
                 locImg.className += " fas fa-map-pin"
-
                 const weatherDesc = document.createElement("i")
-                if(data.forecast.description[0].includes("sun" || "clear")){
+
+                if(weatherDescString.includes("clear")){
                     weatherDesc.className += " wi wi-day-sunny"
-                }
-                else if(data.forecast.description[0].includes("cloud")){
+                }else if(weatherDescString.includes("sun")){
+                    weatherDesc.className += " wi wi-day-sunny"
+                }else if(weatherDescString.includes("cloud")){
                     weatherDesc.className += " wi wi-cloudy"
-                }else if(data.forecast.description[0].includes("sprinkle")){
+                }else if(weatherDescString.includes("sprinkle")){
                     weatherDesc.className += " wi wi-sprinkle"
-                }else if(data.forecast.description[0].includes("shower")){
+                }else if(weatherDescString.includes("shower")){
                     weatherDesc.className += " wi wi-showers"
-                }else if(data.forecast.description[0].includes("rain")){
+                }else if(weatherDescString.includes("rain")){
                     weatherDesc.className += " wi wi-rain"
-                }else if(data.forecast.description[0].includes("thunder" || "lightning")){
+                }else if(weatherDescString.includes("thunder" || "lightning")){
                     weatherDesc.className += " wi wi-thunderstorm"
+                }else if(weatherDescString.includes("overcast")){
+                    weatherDesc.className += " wi wi-day-sunny-overcast"
                 }else{
                     weatherDesc.className += " wi wi-na"
                 }
@@ -67,17 +79,29 @@ weatherForm.addEventListener('submit', (e) => {
                 humidImg.className += " wi wi-humidity icon"
 
                 messageOne.textContent = data.location
-                messageOneImg.appendChild(locImg)
+                if(messageOneImg.childNodes.length === 0){
+                    messageOneImg.appendChild(locImg)
+                }
                 messageTwo.textContent = data.forecast.description
-                messageTwoImg.appendChild(weatherDesc)
+                if(messageTwoImg.childNodes.length === 0){
+                    messageTwoImg.appendChild(weatherDesc)
+                }
                 messageThree.textContent = data.forecast.temperature
-                messageThreeImg.appendChild(tempImg)
+                if(messageThreeImg.childNodes.length === 0){
+                    messageThreeImg.appendChild(tempImg)
+                }
                 messageFour.textContent = data.forecast.feelsLike
-                messageFourImg.appendChild(feelsImg)
+                if(messageFourImg.childNodes.length === 0){
+                    messageFourImg.appendChild(feelsImg)
+                }
                 messageFive.textContent = data.forecast.humidity
-                messageFiveImg.append(humidImg)
+                if(messageFiveImg.childNodes.length === 0){
+                    messageFiveImg.append(humidImg)
+                }
                 messageSix.textContent = data.forecast.wind
-                messageSixImg.appendChild(windImg)
+                if(messageSixImg.childNodes.length === 0){
+                    messageSixImg.appendChild(windImg)
+                }
             }
         })
     })
